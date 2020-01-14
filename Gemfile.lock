@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/thoughtbot/capybara-webkit.git
+  revision: 77fdac424cd6fdb5aa266b229a888cc58da8e95e
+  specs:
+    capybara-webkit (1.15.1)
+      capybara (>= 2.3, < 4.0)
+      json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -56,6 +64,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -63,8 +73,23 @@ GEM
     bson_ext (1.5.1)
     builder (3.2.4)
     byebug (11.0.1)
+    capybara (3.30.0)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (~> 1.5)
+      xpath (~> 3.2)
+    capybara-screenshot (1.0.24)
+      capybara (>= 1.0, < 4)
+      launchy
+    childprocess (3.0.0)
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crass (1.0.6)
+    database_cleaner (1.7.0)
+    diff-lcs (1.3)
     erubi (1.9.0)
     ffi (1.11.3)
     globalid (0.4.2)
@@ -72,6 +97,9 @@ GEM
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
+    json (2.3.0)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -100,6 +128,15 @@ GEM
     parallel (1.18.0)
     parser (2.6.5.0)
       ast (~> 2.4.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
+    public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
     rack (2.1.1)
@@ -136,6 +173,27 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    regexp_parser (1.6.0)
+    rspec-core (3.9.0)
+      rspec-support (~> 3.9.0)
+    rspec-expectations (3.9.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-its (1.3.0)
+      rspec-core (>= 3.0.0)
+      rspec-expectations (>= 3.0.0)
+    rspec-mocks (3.9.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-rails (3.9.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.0)
     rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -145,6 +203,14 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
+    rubyzip (2.0.0)
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
+    shoulda-callback-matchers (1.1.4)
+      activesupport (>= 3)
+    shoulda-matchers (4.2.0)
+      activesupport (>= 4.2.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -164,6 +230,8 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
     zeitwerk (2.2.2)
 
 PLATFORMS
@@ -173,11 +241,21 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   bson_ext
   byebug
+  capybara-screenshot
+  capybara-webkit!
+  database_cleaner
   listen (>= 3.0.5, < 3.2)
   mongoid
+  pry-byebug
+  pry-rails
   puma (~> 4.1)
   rails (~> 6.0.1)
+  rspec-its
+  rspec-rails
   rubocop (~> 0.76.0)
+  selenium-webdriver
+  shoulda-callback-matchers (~> 1.1, >= 1.1.4)
+  shoulda-matchers
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
