@@ -1,0 +1,29 @@
+Metrics/LineLength:
+  Max: 110
+  Enabled: true
+
+Metrics/ModuleLength:
+  Max: 110
+  Enabled: true
+
+Metrics/BlockLength:
+  Max: 30
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.6.5
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'
+    - 'vendor/**/*'
