@@ -13,6 +13,10 @@ Things you may want to cover:
 
 * Database creation
 
+* How to run Rubocop checks
+  bundle exec rubocop -D -c .rubocop.yml
+  rubocop --safe-auto-correct
+
 * Database initialization
 
 * How to run the test suite

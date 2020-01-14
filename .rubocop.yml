@@ -18,6 +18,9 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Bundler/OrderedGems:
+  Enabled: false
+
 AllCops:
   TargetRubyVersion: 2.6.5
   Exclude:
