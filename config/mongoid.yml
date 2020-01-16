@@ -19,6 +19,9 @@ test:
       hosts:
         - localhost:27017
       options:
+        user: root
+        password: root
+        auth_source: admin
         read:
           mode: :primary
         max_pool_size: 1
