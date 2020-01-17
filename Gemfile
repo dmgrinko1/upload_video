@@ -19,6 +19,9 @@ gem 'rails', '~> 6.0.1'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'mongoid-paperclip'
+gem 'paperclip-av-transcoder'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop', '~> 0.76.0'
