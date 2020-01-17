@@ -7,9 +7,10 @@ Rails.application.routes.draw do
         end
       end
       resources :videos, only: [:index, :show] do
-        member do
-          post 'retry', to: 'videos#retry', as: 'retry'
-        end
+          member do
+            post 'failed/retry', to: 'videos#retry', as: 'retry'
+          end
+
         collection do
           post 'upload'
         end
