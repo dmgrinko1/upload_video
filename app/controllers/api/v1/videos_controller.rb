@@ -14,9 +14,7 @@ class Api::V1::VideosController < BaseApiController
   end
 
   def upload
-    @video = User.last.videos.new(
-      attachment: params[:upload_video], start_time: params[:start_time], end_time: params[:end_time]
-    )
+    @video = User.last.videos.new(video_params)
     if @video.save
       render json: @video, status: :created
     else
@@ -28,9 +26,9 @@ class Api::V1::VideosController < BaseApiController
     render json: 'this is stub', status: :ok
   end
 
-  # private
+  private
 
-  # def video_params
-  #   params.require(:video).permit(:start_time, :end_time)
-  # end
+  def video_params
+    params.permit(:attachment, :start_time, :end_time)
+  end
 end

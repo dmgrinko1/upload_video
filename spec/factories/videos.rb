@@ -6,6 +6,7 @@ FactoryBot.define do
   factory :video, class: Video do
     start_time { 1 }
     end_time   { 120 }
+    state      { 'scheduled' }
     attachment { File.new("#{Rails.root}/spec/support/test_attachment.mp4") }
     user
   end

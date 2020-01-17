@@ -19,6 +19,7 @@ gem 'rails', '~> 6.0.1'
 
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'enumerize', '~> 2.3', '>= 2.3.1'
 gem 'mongoid-paperclip'
 gem 'paperclip-av-transcoder'
 

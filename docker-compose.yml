@@ -5,6 +5,8 @@ services:
     container_name: mongo
     image: mongo
     restart: always
+    volumes:
+    - /Users/admin/mongodb:/data/db
     ports:
     - 27017:27017
     environment:
@@ -15,6 +17,8 @@ services:
     container_name: mongo_test
     image: mongo
     restart: always
+    volumes:
+    - /Users/admin/mongodb:/data/db
     ports:
     - 27017:27017
     environment:

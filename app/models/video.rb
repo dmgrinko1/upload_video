@@ -5,14 +5,26 @@ class Video
   include Mongoid::Timestamps::Short
   include Mongoid::Paperclip
 
+  extend Enumerize
+
+  enumerize :state, in: {
+    scheduled: 'scheduled',
+    processing: 'processing',
+    done: 'done',
+    failed: 'failed'
+  }, default: :scheduled
+
   field :start_time, type: Integer
   field :end_time, type: Integer
+  field :state, type: String
 
   has_mongoid_attached_file :attachment
 
   belongs_to :user, index: true
 
   index({ user_id: 1 }, unique: true)
+
+  validates :state, presence: true
 
   validate :end_time_after_start_time
 
