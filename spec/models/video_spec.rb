@@ -11,6 +11,16 @@ RSpec.describe Video, type: :model do
     end
   end
 
+  context 'enums' do
+    describe 'state' do
+      it 'creates an enum with valid payment_mode' do
+        expected_values = %w[scheduled processing done failed]
+
+        expect(Video.state.values).to contain_exactly(*expected_values)
+      end
+    end
+  end
+
   context 'matchers' do
     describe 'main' do
       it { is_expected.to be_mongoid_document }
@@ -19,7 +29,7 @@ RSpec.describe Video, type: :model do
 
     describe 'attributes' do
       it do
-        is_expected.to have_fields(:_id, :c_at, :u_at, :start_time, :end_time, :user_id)
+        is_expected.to have_fields(:_id, :c_at, :u_at, :start_time, :end_time, :user_id, :state)
       end
 
       it 'checks attachment attributes' do
@@ -34,6 +44,7 @@ RSpec.describe Video, type: :model do
 
       it { is_expected.to have_field(:start_time).of_type(Integer) }
       it { is_expected.to have_field(:start_time).of_type(Integer) }
+      it { is_expected.to have_field(:state).of_type(String) }
 
       it { is_expected.to have_timestamps.shortened }
     end
@@ -47,6 +58,7 @@ RSpec.describe Video, type: :model do
     end
 
     describe 'validations' do
+      it { is_expected.to validate_presence_of(:state) }
       describe 'attachment' do
         it { is_expected.to validate_attachment_presence(:attachment) }
         it {
@@ -79,16 +91,16 @@ RSpec.describe Video, type: :model do
 
           expect(video.save).to eq(expected_value)
         end
-        #
-        #   it 'not saves with message' do
-        #     video = FactoryBot.create(:video)
-        #     video.start_time = 2
-        #     video.end_time = 1
-        #     video.valid?
-        #     expected_value = 'must be after the start time'
-        #
-        #     expect(video.errors.messages).to eq(end_date: [expected_value])
-        #   end
+
+        it 'not saves with message' do
+          video = FactoryBot.create(:video)
+          video.start_time = 2
+          video.end_time = 1
+          video.valid?
+          expected_value = 'must be after the start time'
+
+          expect(video.errors.messages).to eq(end_date: [expected_value])
+        end
       end
     end
   end
