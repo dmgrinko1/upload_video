@@ -6,7 +6,7 @@ services:
     image: mongo
     restart: always
     volumes:
-    - /Users/admin/mongodb:/data/db
+    - /Users/admin/mongodb_dev:/data/db
     ports:
     - 27017:27017
     environment:
