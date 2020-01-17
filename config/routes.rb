@@ -6,9 +6,12 @@ Rails.application.routes.draw do
           get 'list_of_requests'
         end
       end
-      resources :videos, only: [] do
+      resources :videos, only: [:index, :show] do
+        member do
+          post 'retry', to: 'videos#retry', as: 'retry'
+        end
         collection do
-          post 'upload_video'
+          post 'upload'
         end
       end
     end
