@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
 class Api::V1::VideosController < BaseApiController
+  before_action :set_user
+  before_action :set_user_video, only: [:show]
+
   def index
-    @videos = User.last.videos
-    render json: @videos, each_serializer: VideoSerializer, status: :ok
+    json_response(@user.videos)
   end
 
   def show
-    @video = User.last.videos.find(params[:id])
-    render json: @video, serializer: VideoSerializer, status: :ok
+    json_response(@video)
   end
 
   def upload
-    @video = User.last.videos.new(video_params)
+    @video = @user.videos.new(video_params)
     if @video.save
-      render json: @video, status: :created
+      json_response(@video, :created)
     else
-      render json: @video.errors, status: :unprocessable_entity
+      json_response(@video.errors, :unprocessable_entity)
     end
   end
 
@@ -28,5 +29,13 @@ class Api::V1::VideosController < BaseApiController
 
   def video_params
     params.permit(:attachment, :start_time, :end_time)
+  end
+
+  def set_user
+    @user = User.last
+  end
+
+  def set_user_video
+    @video = @user.videos.find_by!(id: params[:id]) if @user
   end
 end

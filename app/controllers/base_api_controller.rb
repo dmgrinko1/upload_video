@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BaseApiController < ActionController::API
+  include Api::V1::Concerns::ExceptionHandler
+
   before_action :authenticate
 
   private
