@@ -22,6 +22,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'enumerize', '~> 2.3', '>= 2.3.1'
 gem 'mongoid-paperclip'
 gem 'paperclip-av-transcoder'
+gem 'active_model_serializers', '~> 0.10.10'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

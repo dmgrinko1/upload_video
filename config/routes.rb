@@ -10,7 +10,6 @@ Rails.application.routes.draw do
         member do
           post 'failed/retry', to: 'videos#retry', as: 'retry'
         end
-
         collection do
           post 'upload'
         end
@@ -27,7 +26,6 @@ Rails.application.routes.draw do
         member do
           post 'failed/retry', to: 'videos#retry', as: 'retry'
         end
-
         collection do
           post 'upload'
         end

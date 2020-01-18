@@ -3,14 +3,12 @@
 class Api::V1::VideosController < BaseApiController
   def index
     @videos = User.last.videos
-
-    render json: @videos, status: :ok
+    render json: @videos, each_serializer: VideoSerializer, status: :ok
   end
 
   def show
     @video = User.last.videos.find(params[:id])
-
-    render json: @video, status: :ok
+    render json: @video, serializer: VideoSerializer, status: :ok
   end
 
   def upload
