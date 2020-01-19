@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :user, class: User do
-    username { FFaker::Name.name }
-    auth_token { SecureRandom.uuid }
+    email { FFaker::Internet.email }
+    password { 'securePassword1' }
+    password_confirmation { 'securePassword1' }
   end
 end

@@ -32,7 +32,7 @@ class Api::V2::VideosController < BaseApiController
   end
 
   def set_user
-    @user = User.last
+    @user = current_user
   end
 
   def set_user_video

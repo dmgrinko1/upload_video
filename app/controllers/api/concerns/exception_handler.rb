@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Api::V1::Concerns::ExceptionHandler
-  include Api::V1::Concerns::Responce
+module Api::Concerns::ExceptionHandler
+  include Api::Concerns::Responce
   extend ActiveSupport::Concern
 
   included do

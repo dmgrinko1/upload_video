@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class BaseApiController < ActionController::API
-  include Api::V1::Concerns::ExceptionHandler
+  include Api::Concerns::ExceptionHandler
 
-  before_action :authenticate
+  before_action :authenticate_request
+  attr_reader :current_user
 
   private
 
-  def authenticate
-    head(401) unless User.where(auth_token: request.headers['X-Auth-Token']).exists?
+  def authenticate_request
+    @current_user = AuthorizeApiRequest.call(request.headers).result
+    render json: { error: 'Not Authorized' }, status: 401 unless @current_user
   end
 end
