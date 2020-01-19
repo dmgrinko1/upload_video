@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
 
     namespace 'v2' do
+      post 'authenticate', to: 'authentication#authenticate'
       resources :users, only: [] do
         collection do
           get 'list_of_requests'
