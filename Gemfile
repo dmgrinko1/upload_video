@@ -23,6 +23,9 @@ gem 'enumerize', '~> 2.3', '>= 2.3.1'
 gem 'mongoid-paperclip'
 gem 'paperclip-av-transcoder'
 gem 'active_model_serializers', '~> 0.10.10'
+gem 'bcrypt', '~> 3.1', '>= 3.1.13'
+gem 'jwt', '~> 2.2', '>= 2.2.1'
+gem 'simple_command', '~> 0.1.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -39,6 +42,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'capybara-webkit', git: 'https://github.com/thoughtbot/capybara-webkit.git'
   gem 'selenium-webdriver'
+  gem 'shoulda-callback-matchers'
 end
 
 group :development do

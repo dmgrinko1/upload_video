@@ -6,6 +6,7 @@ require 'mongoid-rspec'
 require 'paperclip/matchers'
 
 RSpec.configure do |config|
+  config.include(Shoulda::Callback::Matchers::ActiveModel)
   config.include Mongoid::Matchers, type: :model
   config.include Paperclip::Shoulda::Matchers
 end

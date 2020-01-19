@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  context 'includes' do
+    it 'are defined' do
+      expect(User).to include(Mongoid::Document)
+      expect(User).to include(Mongoid::Timestamps::Short)
+      expect(User).to include(ActiveModel::SecurePassword)
+    end
+  end
+
   context 'matchers' do
     describe 'main' do
       it { is_expected.to be_mongoid_document }
@@ -10,10 +18,11 @@ RSpec.describe User, type: :model do
     end
 
     describe 'attributes' do
-      it { is_expected.to have_fields(:username, :auth_token) }
+      it { is_expected.to have_fields(:email, :password, :password_digest) }
 
-      it { is_expected.to have_field(:username).of_type(String) }
-      it { is_expected.to have_field(:auth_token).of_type(String) }
+      it { is_expected.to have_field(:email).of_type(String) }
+      it { is_expected.to have_field(:password).of_type(String) }
+      it { is_expected.to have_field(:password_digest).of_type(String) }
 
       it { is_expected.to have_timestamps.shortened }
     end
@@ -27,11 +36,11 @@ RSpec.describe User, type: :model do
     end
 
     describe 'validations' do
-      it { is_expected.to validate_presence_of(:username) }
-      it { is_expected.to validate_presence_of(:auth_token) }
+      it { is_expected.to validate_presence_of(:email) }
+      it { is_expected.to validate_presence_of(:password_digest) }
 
-      it { is_expected.to validate_length_of(:username).within(3..40) }
-      it { is_expected.to validate_length_of(:auth_token).within(3..40) }
+      it { is_expected.to validate_length_of(:email).within(3..40) }
+      it { is_expected.to validate_length_of(:password_digest).within(3..72) }
     end
   end
 end

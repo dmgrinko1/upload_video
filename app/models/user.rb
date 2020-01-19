@@ -3,12 +3,22 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps::Short
-  field :username, type: String
-  field :auth_token, type: String
+  include ActiveModel::SecurePassword
+
+  field :email, type: String
+  field :password, type: String
+  field :password_digest, type: String
+
+  has_secure_password
 
   has_many :videos, dependent: :destroy
 
-  validates :username, :auth_token,
+  validates :email,
             presence: true,
-            length: { in: 3..40 }
+            length: { in: 3..40 },
+            format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  validates :password_digest,
+            presence: true,
+            length: { in: 3..72 }
 end
