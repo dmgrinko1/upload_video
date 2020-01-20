@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'uri'
 
 class VideoSerializer < ActiveModel::Serializer
@@ -9,7 +10,7 @@ class VideoSerializer < ActiveModel::Serializer
   attribute :duration
   attribute :url
 
-  # TODO: if no end_time and start_time available. Should look at VideoProcessingJob and set video range from FFmpeg plugin
+  # TODO: if no end_time and start_time available. Go to VideoProcessingJob and set video range from FFmpeg
   def duration
     return 'In Development' if object.start_time.nil?
 
