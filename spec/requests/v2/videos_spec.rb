@@ -21,7 +21,7 @@ RSpec.describe 'Videos V2::API' do
 
     it 'JSON body response contains expected video attributes' do
       json_response = JSON.parse(response.body)
-      expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+      expected_value = ["id", "state", "created_at", "updated_at", "duration", "url"]
 
       expect(json_response[0].keys).to match_array(expected_value)
     end
@@ -48,7 +48,7 @@ RSpec.describe 'Videos V2::API' do
 
     it 'JSON body response contains expected video attributes' do
       json_response = JSON.parse(response.body)
-      expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+      expected_value = ["id", "state", "created_at", "updated_at", "duration", "url"]
 
       expect(json_response.keys).to match_array(expected_value)
     end
@@ -82,7 +82,7 @@ RSpec.describe 'Videos V2::API' do
 
       it 'JSON body response contains expected video attributes' do
         json_response = JSON.parse(response.body)
-        expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+        expected_value = ["id", "state", "created_at", "updated_at", "duration", "url"]
 
         expect(json_response.keys).to match_array(expected_value)
       end
