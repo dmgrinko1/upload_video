@@ -16,6 +16,7 @@ Bundler.require(*Rails.groups)
 
 module VideoUpload
   class Application < Rails::Application
+    config.active_job.queue_adapter = :sidekiq
     config.load_defaults 6.0
     config.api_only = true
     config.autoload_paths << Rails.root.join('lib')

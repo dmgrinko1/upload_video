@@ -2,7 +2,7 @@
 
 class Api::V1::VideosController < BaseApiController
   before_action :set_user
-  before_action :set_user_video, only: [:show]
+  before_action :set_user_video, only: %i[show retry]
 
   def index
     json_response(@user.videos)
@@ -12,17 +12,31 @@ class Api::V1::VideosController < BaseApiController
     json_response(@video)
   end
 
+  # rubocop:disable  Metrics/MethodLength
   def upload
     @video = @user.videos.new(video_params)
     if @video.save
       json_response(@video, :created)
+
+      if video_params[:start_time].present?
+        VideoProcessingJob.perform_later @video.id.to_s
+      else
+        @video.state = 'done'
+        @video.save
+      end
     else
       json_response(@video.errors, :unprocessable_entity)
     end
   end
+  # rubocop:enable  Metrics/MethodLength
 
   def retry
-    render json: 'this is stub', status: :ok
+    if @video.state == 'scheduler' || @video.state == 'failed'
+      VideoProcessingJob.perform_later @video.id.to_s
+      json_response(@video, :ok)
+    else
+      json_response({ message: 'Video is processing. could not retry' }, :unprocessable_entity)
+    end
   end
 
   private
@@ -36,6 +50,7 @@ class Api::V1::VideosController < BaseApiController
   end
 
   def set_user_video
-    @video = @user.videos.find_by!(id: params[:id]) if @user
+    @video = Video.find_by!(id: params[:id]) if @user
+    raise BaseApiController::NotAuthorized if @video.user_id != @user.id
   end
 end
