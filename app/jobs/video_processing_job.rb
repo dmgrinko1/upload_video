@@ -28,9 +28,8 @@ class VideoProcessingJob < ApplicationJob
       video.state = 'done'
     rescue => e
       video.state = 'failed'
-      puts 'Error: ', e.message
+      logger.fatal e.message
     ensure
-      # 1/0
       video.save
       File.delete(tmp_file) if File.exist?(tmp_file)
     end
