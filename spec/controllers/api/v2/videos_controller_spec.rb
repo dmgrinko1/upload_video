@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::VideosController, type: :controller do
+RSpec.describe Api::V2::VideosController, type: :controller do
   context 'includes' do
     it 'are defined' do
-      expect(Api::V1::VideosController).to include(Api::Concerns::ExceptionHandler)
-      expect(Api::V1::VideosController).to include(Api::Concerns::Responce)
+      expect(Api::V2::VideosController).to include(Api::Concerns::ExceptionHandler)
+      expect(Api::V2::VideosController).to include(Api::Concerns::Responce)
     end
   end
 

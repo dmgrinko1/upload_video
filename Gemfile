@@ -44,6 +44,7 @@ group :test do
   gem 'capybara-webkit', git: 'https://github.com/thoughtbot/capybara-webkit.git'
   gem 'selenium-webdriver'
   gem 'shoulda-callback-matchers'
+  gem 'shoulda-matchers'
 end
 
 group :development do
