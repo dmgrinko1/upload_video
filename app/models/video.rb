@@ -15,8 +15,8 @@ class Video
   }, default: :scheduled
 
   field :start_time, type: Integer
-  field :end_time, type: Integer
-  field :state, type: String
+  field :end_time,   type: Integer
+  field :state,      type: String
 
   has_mongoid_attached_file :attachment
 
