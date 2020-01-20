@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class AuthorizeApiRequest
-  prepend SimpleCommand
-
   def initialize(headers = {})
     @headers = headers
   end
 
   def call
-    user
+    {
+      user: user
+    }
   end
 
   private
@@ -17,22 +17,20 @@ class AuthorizeApiRequest
 
   def user
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
-    @user || errors.add(:token, 'Invalid token') && nil
+  rescue Mongoid::Errors::DocumentNotFound => e
+    raise(
+      Api::Concerns::ExceptionHandler::InvalidToken,
+      ("#{Message.invalid_token} #{e.message}")
+    )
   end
 
   def decoded_auth_token
     @decoded_auth_token ||= JsonWebToken.decode(http_auth_header)
   end
 
-  # rubocop:disable Style/GuardClause
   def http_auth_header
-    if headers['Authorization'].present?
-      return headers['Authorization'].split(' ').last
-    else
-      errors.add(:token, 'Missing token')
-    end
+    return headers['Authorization'].split(' ').last if headers['Authorization'].present?
 
-    nil
+    raise(Api::Concerns::ExceptionHandler::MissingToken, Message.missing_token)
   end
-  # rubocop:enable Style/GuardClause
 end

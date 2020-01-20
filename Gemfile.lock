@@ -233,6 +233,14 @@ GEM
     rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
+    rspec-rails (3.9.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+      rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
     rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
@@ -249,6 +257,8 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-callback-matchers (1.1.4)
       activesupport (>= 3)
+    shoulda-matchers (4.2.0)
+      activesupport (>= 4.2.0)
     sidekiq (6.0.4)
       connection_pool (>= 2.2.2)
       rack (>= 2.0.0)
@@ -305,9 +315,11 @@ DEPENDENCIES
   pry-rails
   puma (~> 4.1)
   rails (~> 6.0.1)
+  rspec-rails
   rubocop (~> 0.76.0)
   selenium-webdriver
   shoulda-callback-matchers
+  shoulda-matchers
   sidekiq (~> 6.0, >= 6.0.4)
   simple_command (~> 0.1.0)
   spring
