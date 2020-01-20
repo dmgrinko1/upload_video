@@ -9,6 +9,14 @@ FactoryBot.define do
     state      { 'scheduled' }
     attachment { File.new("#{Rails.root}/spec/support/test_attachment.mp4") }
     user
+
+    trait :no_time_range do
+      start_time { nil }
+      end_time   { nil }
+      state      { 'scheduled' }
+      attachment { File.new("#{Rails.root}/spec/support/test_attachment.mp4") }
+      user
+    end
   end
 end
 # rubocop:enable Style/MixinUsage

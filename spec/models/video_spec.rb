@@ -32,7 +32,7 @@ RSpec.describe Video, type: :model do
         is_expected.to have_fields(:_id, :c_at, :u_at, :start_time, :end_time, :user_id, :state)
       end
 
-      it 'checks attachment attributes' do
+      it 'checks attachment .attachment' do
         is_expected.to have_fields(
           :attachment_file_name,
           :attachment_content_type,
@@ -59,7 +59,8 @@ RSpec.describe Video, type: :model do
 
     describe 'validations' do
       it { is_expected.to validate_presence_of(:state) }
-      describe 'attachment' do
+      it { is_expected.to validate_presence_of(:state) }
+      describe '.attachment' do
         it { is_expected.to validate_attachment_presence(:attachment) }
         it {
           is_expected.to validate_attachment_content_type(:attachment)
@@ -76,7 +77,7 @@ RSpec.describe Video, type: :model do
 
   context 'custom' do
     describe 'validations' do
-      describe 'purchase_order_attachment' do
+      describe '.attachment' do
         before do
           Video.any_instance.stub(:save_attached_files).and_return(true)
           @attachment = FactoryBot.create :video
@@ -100,6 +101,50 @@ RSpec.describe Video, type: :model do
           expected_value = 'must be after the start time'
 
           expect(video.errors.messages).to eq(end_date: [expected_value])
+        end
+      end
+      describe '.start_time and .end_time' do
+        context 'when .start_time and .end_time exists' do
+          subject { FactoryBot.create(:video) }
+
+          it { is_expected.to validate_presence_of(:start_time) }
+          it { is_expected.to validate_presence_of(:end_time) }
+        end
+
+        context 'when both is nil' do
+          it 'saves object' do
+            video = FactoryBot.create(:video)
+            video.start_time = nil
+            video.end_time = nil
+            video.valid?
+            expected_value = true
+
+            expect(video.save).to eq(expected_value)
+          end
+        end
+
+        context 'when .end_time is nil' do
+          it 'not saves with message' do
+            video = FactoryBot.create(:video)
+            video.start_time = nil
+            video.end_time = 0
+            video.valid?
+            expected_value = "can't be blank"
+
+            expect(video.errors.messages).to eq(start_time: [expected_value])
+          end
+
+          context 'when .start_time is nil' do
+            it 'not saves with message' do
+              video = FactoryBot.create(:video)
+              video.start_time = 5
+              video.end_time = nil
+              video.valid?
+              expected_value = "can't be blank"
+
+              expect(video.errors.messages).to eq(end_time: [expected_value])
+            end
+          end
         end
       end
     end

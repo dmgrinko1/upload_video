@@ -27,6 +27,8 @@ class Video
   validates :state, presence: true
 
   validate :end_time_after_start_time
+  validates :start_time, presence: true, if: :end_time?
+  validates :end_time,   presence: true, if: :start_time?
 
   validates_attachment_presence     :attachment
   validates_attachment_content_type :attachment, content_type: ['video/mp4']
