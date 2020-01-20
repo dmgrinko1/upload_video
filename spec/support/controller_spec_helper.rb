@@ -25,8 +25,8 @@ module ControllerSpecHelper
 
   def invalid_headers_bad_token
     {
-        'Authorization' => 'bad token',
-        'Content-Type' => 'application/json'
+      'Authorization' => 'bad token',
+      'Content-Type' => 'application/json'
     }
   end
 end

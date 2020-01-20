@@ -21,7 +21,7 @@ RSpec.describe 'Videos V2::API' do
 
     it 'JSON body response contains expected video attributes' do
       json_response = JSON.parse(response.body)
-      expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+      expected_value = %w[id state created_at updated_at duration url]
 
       expect(json_response[0].keys).to match_array(expected_value)
     end
@@ -42,13 +42,12 @@ RSpec.describe 'Videos V2::API' do
   describe 'GET /api/v2/videos/:id' do
     before { get "/api/v2/videos/#{id}", params: { id: id }, headers: with_valid_headers }
     it 'returns http success' do
-
       expect(response).to have_http_status(:success)
     end
 
     it 'JSON body response contains expected video attributes' do
       json_response = JSON.parse(response.body)
-      expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+      expected_value = %w[id state created_at updated_at duration url]
 
       expect(json_response.keys).to match_array(expected_value)
     end
@@ -67,8 +66,9 @@ RSpec.describe 'Videos V2::API' do
   end
 
   describe 'POST /api/v2/videos/upload' do
-
-    let(:attachment) { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, 'spec/support/test_attachment.mp4'))) }
+    let(:attachment) do
+      Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, 'spec/support/test_attachment.mp4')))
+    end
     let(:valid_attributes) { { start_time: 1, end_time: 2, attachment: attachment } }
 
     context 'when request attributes are valid' do
@@ -82,7 +82,7 @@ RSpec.describe 'Videos V2::API' do
 
       it 'JSON body response contains expected video attributes' do
         json_response = JSON.parse(response.body)
-        expected_value = ["id", "state", "c_at", "u_at", "duration", "url"]
+        expected_value = %w[id state created_at updated_at duration url]
 
         expect(json_response.keys).to match_array(expected_value)
       end
@@ -98,7 +98,9 @@ RSpec.describe 'Videos V2::API' do
   end
 
   describe 'POST /api/v2/videos/:id/failed/retry' do
-    let(:attachment) { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, 'spec/support/test_attachment.mp4'))) }
+    let(:attachment) do
+      Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, 'spec/support/test_attachment.mp4')))
+    end
     let(:valid_attributes) { { start_time: 1, end_time: 2, attachment: attachment } }
 
     context 'when request attributes are valid' do
@@ -112,7 +114,6 @@ RSpec.describe 'Videos V2::API' do
       it 'returns http success' do
         expect(response).to have_http_status(:ok)
       end
-
     end
 
     context 'when an invalid request' do
