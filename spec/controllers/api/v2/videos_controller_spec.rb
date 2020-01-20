@@ -11,7 +11,7 @@ RSpec.describe Api::V2::VideosController, type: :controller do
   end
 
   describe 'before_actions' do
-    it { is_expected.to use_before_action(:authenticate_request) }
+    it { is_expected.to use_before_action(:authorize_request) }
     it { is_expected.to use_before_action(:set_user) }
     it { is_expected.to use_before_action(:set_user_video) }
   end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AuthenticateUser
-  prepend SimpleCommand
-
   def initialize(email, password)
     @email = email
     @password = password
@@ -14,13 +12,12 @@ class AuthenticateUser
 
   private
 
-  attr_accessor :email, :password
+  attr_reader :email, :password
 
   def user
     user = User.find_by(email: email)
     return user if user&.authenticate(password)
 
-    errors.add :user_authentication, 'invalid credentials'
-    nil
+    raise(Api::Concerns::ExceptionHandler::AuthenticationError, Message.invalid_credentials)
   end
 end

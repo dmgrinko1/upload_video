@@ -11,6 +11,6 @@ RSpec.describe Api::V2::UsersController, type: :controller do
   end
 
   describe 'before_actions' do
-    it { is_expected.to use_before_action(:authenticate_request) }
+    it { is_expected.to use_before_action(:authorize_request) }
   end
 end
