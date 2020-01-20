@@ -7,13 +7,10 @@ module Api::Concerns::ExceptionHandler
   class AuthenticationError < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
+  class NotAuthorized < StandardError; end
 
   included do
-    NotAuthorized = Class.new(StandardError)
-    rescue_from BaseApiController::NotAuthorized do
-      json_response({ message: 'Forbidden' }, 403)
-    end
-
+    rescue_from Api::Concerns::ExceptionHandler::NotAuthorized, with: :four_zero_three
     rescue_from Api::Concerns::ExceptionHandler::AuthenticationError, with: :unauthorized_request
     rescue_from Api::Concerns::ExceptionHandler::MissingToken, with: :four_twenty_two
     rescue_from Api::Concerns::ExceptionHandler::InvalidToken, with: :four_twenty_two
@@ -24,6 +21,10 @@ module Api::Concerns::ExceptionHandler
   end
 
   private
+
+  def four_zero_three(exc)
+    json_response({ message: exc.message }, :unprocessable_entity)
+  end
 
   def four_twenty_two(exc)
     json_response({ message: exc.message }, :unprocessable_entity)
