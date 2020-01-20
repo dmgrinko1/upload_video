@@ -5,6 +5,9 @@ require 'support/factory_bot'
 require 'mongoid-rspec'
 require 'paperclip/matchers'
 
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'rspec/rails'
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
@@ -13,6 +16,8 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+  config.infer_spec_type_from_file_location!
+  config.filter_rails_from_backtrace!
   config.include(Shoulda::Callback::Matchers::ActiveModel)
   config.include Mongoid::Matchers, type: :model
   config.include Paperclip::Shoulda::Matchers
