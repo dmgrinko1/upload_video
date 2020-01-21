@@ -20,7 +20,7 @@ To start a dev server: `rails s`
 See the running app at `http://localhost:3000`
 
 * Ruby version
-  2.6.5
+  `2.6.5`
 
 * How to run Docker
     `docker-compose up mongo`
