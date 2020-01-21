@@ -1,0 +1,445 @@
+swagger: '2.0'
+info:
+  title: Video Upload App API documentation
+  version: '1.0'
+host: 'localhost:3000'
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /api/v1/videos:
+    get:
+      summary: GET API::V1::Videos
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/video'
+          examples: {}
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      operationId: get-api-v1-videos
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+  '/api/v1/videos/{id}':
+    get:
+      summary: GET API::V1::Video
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/video'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      operationId: 'get-api-v1-videos-:id'
+      description: get video by id
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          description: JWT Token
+          name: Authorization
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+  /api/v1/videos/upload:
+    post:
+      summary: POST API::V1::UploadVideo
+      operationId: post-api-v1-videos-upload
+      responses:
+        '200':
+          description: OK
+          headers: {}
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+        '':
+          description: ''
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: string
+          name: start_time
+          description: start trim time sec
+        - in: formData
+          type: string
+          name: end_time
+          description: end trim time sec
+        - in: formData
+          type: file
+          name: "[{\"key\":\"attachment\",\"attachment_file_name\"}]"
+          description: "attachment file ['mp4]"
+          required: true
+      description: Upload video
+    parameters: []
+  '/api/v1/videos/{id}/failed/retry':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: POST API::V1::RetryUploadVideo
+      operationId: post-api-v1-videos-id-failed-retry
+      responses:
+        '200':
+          description: OK
+          headers: {}
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: file
+          name: attachment
+          description: "attachment file ['mp4]"
+          required: true
+  /api/v1/authenticate:
+    post:
+      summary: POST API::V1::Auth
+      operationId: post-api-v1-authenticate
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401'
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          name: email
+          description: email login
+        - type: integer
+          in: header
+          name: password
+          description: password
+  /api/v2/videos:
+    get:
+      summary: GET API::V2::Videos
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/video'
+          examples: {}
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      operationId: get-api-v2-videos
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+  '/api/v2/videos/{id}':
+    get:
+      summary: GET API::V2::Video
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/video'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      operationId: 'get-api-v2-videos-:id'
+      description: get video by id
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          description: JWT Token
+          name: Authorization
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+  /api/v2/videos/upload:
+    post:
+      summary: POST API::V2::UploadVideo
+      operationId: post-api-v2-videos-upload
+      responses:
+        '200':
+          description: OK
+          headers: {}
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+        '':
+          description: ''
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: string
+          name: start_time
+          description: start trim time sec
+        - in: formData
+          type: string
+          name: end_time
+          description: end trim time sec
+        - in: formData
+          type: file
+          name: "[{\"key\":\"attachment\",\"attachment_file_name\"}]"
+          description: "attachment file ['mp4]"
+          required: true
+      description: Upload video
+    parameters: []
+  '/api/v2/videos/{id}/failed/retry':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: POST API::V2::RetryUploadVideo
+      operationId: post-api-v2-videos-id-failed-retry
+      responses:
+        '200':
+          description: OK
+          headers: {}
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/404'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/422'
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: file
+          name: attachment
+          description: "attachment file ['mp4]"
+          required: true
+  /api/v2/authenticate:
+    post:
+      summary: POST API::V2::Auth
+      operationId: post-api-v2-authenticate
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401'
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          name: email
+          description: email login
+        - type: integer
+          in: header
+          name: password
+          description: password
+definitions:
+  '400':
+    title: 400
+    type: object
+    description: |-
+      "attachment": ["cant`be blank"], ["must be less then 200 mb"], ["invalid file format"];
+      "endTime": ["must be after the StartTime"],["can`t be blank if start date present"];
+      "startTime": ["can`t be blank if endTime present"]
+  '401':
+    title: 401
+    type: object
+    properties:
+      message:
+        type: string
+        description: Invalid credentials
+  '403':
+    title: 403
+    type: object
+    properties:
+      message:
+        type: string
+        description: Forbidden
+  '404':
+    title: 404
+    type: object
+    properties:
+      message:
+        type: string
+        description: |-
+          Document not found for class Video with attributes {:id=>"your_
+          id"
+  '422':
+    title: 422
+    type: object
+    properties:
+      mwssage:
+        type: string
+        description: Missing token
+  user:
+    title: user
+    type: object
+    properties:
+      id:
+        type: string
+  video:
+    title: video
+    type: object
+    properties:
+      id:
+        type: string
+      state:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      duration:
+        type: integer
+      url:
+        type: string
+
