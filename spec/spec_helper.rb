@@ -4,9 +4,10 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/autorun'
 require 'mongoid'
+require 'capybara/rails'
 
 RSpec.configure do |config|
-
+  config.include Capybara::DSL
   config.before(:suite) do
     DatabaseCleaner[:mongoid].strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)

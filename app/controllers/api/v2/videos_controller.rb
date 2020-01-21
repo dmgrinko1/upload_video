@@ -5,7 +5,7 @@ class Api::V2::VideosController < BaseApiController
   before_action :set_user_video, only: %i[show retry]
 
   def index
-    json_response(@user.videos)
+    json_response(@user.videos.order('created_at DESC').page(params[:page]))
   end
 
   def show
