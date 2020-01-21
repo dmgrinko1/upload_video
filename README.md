@@ -23,15 +23,15 @@ See the running app at `http://localhost:3000`
   2.6.5
 
 * How to run Docker
-    docker-compose up mongo
-    docker-compose up mongo_test
+    `docker-compose up mongo`
+    `docker-compose up mongo_test`
 
 * How to run Rubocop checks
-    bundle exec rubocop -D -c .rubocop.yml
-    rubocop --safe-auto-correct
+    `bundle exec rubocop -D -c .rubocop.yml`
+    `rubocop --safe-auto-correct`
 
 * How to run the test suite
-    bundle exec rspec
+    `bundle exec rspec`
 
 * Services (job queues, cache servers, search engines, etc.)
-    bundle exec sidekiq
+    `bundle exec sidekiq`
