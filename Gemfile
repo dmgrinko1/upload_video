@@ -27,6 +27,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.13'
 gem 'jwt', '~> 2.2', '>= 2.2.1'
 gem 'simple_command', '~> 0.1.0'
 gem 'sidekiq', '~> 6.0', '>= 6.0.4'
+gem 'will_paginate_mongoid'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

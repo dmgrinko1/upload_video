@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+require 'will_paginate/array'
 
 class Api::V1::VideosController < BaseApiController
   before_action :set_user
   before_action :set_user_video, only: %i[show retry]
 
   def index
-    json_response(@user.videos)
+    json_response(@user.videos.order('created_at DESC').page(params[:page]))
   end
 
   def show
