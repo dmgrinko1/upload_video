@@ -223,6 +223,8 @@ paths:
           examples:
             success:
               auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
+          schema:
+            $ref: '#/definitions/user'
         '401':
           description: Unauthorized
           schema:
@@ -236,16 +238,10 @@ paths:
           name: Content-Type
           description: application/json
           required: true
-        - type: string
-          in: header
-          name: email
-          description: email login
-          required: true
-        - type: string
-          in: header
-          name: password
-          description: password
-          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/user'
   /api/v2/videos:
     get:
       summary: 'GET API::V2::Videos'
@@ -453,6 +449,8 @@ paths:
           examples:
             success:
               auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
+          schema:
+            $ref: '#/definitions/user'
         '401':
           description: Unauthorized
           schema:
@@ -476,6 +474,11 @@ paths:
           name: password
           description: password
           required: true
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/user'
+          description: ''
 definitions:
   '400':
     title: 400
@@ -518,7 +521,9 @@ definitions:
     title: user
     type: object
     properties:
-      id:
+      email:
+        type: string
+      password:
         type: string
   video:
     title: video
