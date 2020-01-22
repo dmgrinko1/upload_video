@@ -21,7 +21,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/video'
-          examples: {}
+          examples:
         '403':
           description: Forbidden
           schema:
@@ -40,10 +40,12 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
   '/api/v1/videos/{id}':
     get:
       summary: 'GET API::V1::Video'
@@ -72,10 +74,12 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           description: JWT Token
           name: Authorization
+          required: true
     parameters:
       - type: string
         name: id
@@ -113,10 +117,12 @@ paths:
           name: Content-Type
           description: |
             application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
         - in: formData
           type: integer
           name: start_time
@@ -127,7 +133,7 @@ paths:
           description: end trim time sec
         - in: formData
           type: file
-          name: '[{"key":"attachment","attachment_file_name"}]'
+          name: attachment
           description: "attachment file ['mp4]"
           required: true
       description: Upload video
@@ -188,14 +194,17 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           name: email
           description: email login
+          required: true
         - type: string
           in: header
           name: password
           description: password
+          required: true
   /api/v2/videos:
     get:
       summary: 'GET API::V2::Videos'
@@ -313,7 +322,7 @@ paths:
           description: end trim time sec
         - in: formData
           type: file
-          name: '[{"key":"attachment","attachment_file_name"}]'
+          name: attachment
           description: "attachment file ['mp4]"
           required: true
       description: Upload video
@@ -374,14 +383,17 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           name: email
           description: email login
+          required: true
         - type: string
           in: header
           name: password
           description: password
+          required: true
 definitions:
   '400':
     title: 400
