@@ -151,18 +151,9 @@ paths:
           description: JWT Token
           required: true
         - in: formData
-          type: integer
-          name: start_time
-          description: start trim time sec
-        - in: formData
-          type: integer
-          name: end_time
-          description: end trim time sec
-        - in: formData
           type: file
           name: attachment
-          description: "attachment file ['mp4]"
-          required: true
+          description: attach file
       description: Upload video
     parameters: []
   '/api/v1/videos/{id}/failed/retry':
@@ -204,44 +195,17 @@ paths:
           name: Content-Type
           description: |
             application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
         - in: formData
           type: file
           name: attachment
           description: "attachment file ['mp4]"
           required: true
-  /api/v1/authenticate:
-    post:
-      summary: 'POST API::V1::Auth'
-      operationId: post-api-v1-authenticate
-      responses:
-        '200':
-          description: OK
-          examples:
-            success:
-              auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
-          schema:
-            $ref: '#/definitions/user'
-        '401':
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/401'
-          examples:
-            Unauthorized:
-              message: Invalid credentials
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: application/json
-          required: true
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/user'
   /api/v2/videos:
     get:
       summary: 'GET API::V2::Videos'
@@ -285,10 +249,12 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
   '/api/v2/videos/{id}':
     get:
       summary: 'GET API::V2::Video'
@@ -325,10 +291,12 @@ paths:
           in: header
           name: Content-Type
           description: application/json
+          required: true
         - type: string
           in: header
           description: JWT Token
           name: Authorization
+          required: true
     parameters:
       - type: string
         name: id
@@ -372,10 +340,12 @@ paths:
           name: Content-Type
           description: |
             application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
         - in: formData
           type: integer
           name: start_time
@@ -430,10 +400,12 @@ paths:
           name: Content-Type
           description: |
             application/json
+          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
+          required: true
         - in: formData
           type: file
           name: attachment
@@ -464,21 +436,51 @@ paths:
           name: Content-Type
           description: application/json
           required: true
-        - type: string
-          in: header
+        - in: formData
+          type: string
           name: email
           description: email login
           required: true
-        - type: string
-          in: header
+        - in: formData
+          type: string
           name: password
           description: password
           required: true
-        - in: body
-          name: body
+    parameters: []
+  /api/v1/authenticates:
+    post:
+      summary: 'POST API::Auths'
+      operationId: post-api-auth
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          examples:
+            success:
+              auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
+        '401':
+          description: Unauthorized
           schema:
-            $ref: '#/definitions/user'
-          description: ''
+            $ref: '#/definitions/401'
+          examples:
+            Unauthorized:
+              message: Invalid credentials
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+          required: true
+        - in: formData
+          type: string
+          name: email
+          description: login email
+          required: true
+        - in: formData
+          type: string
+          name: password
+          description: password
+          required: true
 definitions:
   '400':
     title: 400
