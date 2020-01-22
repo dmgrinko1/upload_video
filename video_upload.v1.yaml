@@ -447,9 +447,9 @@ paths:
           description: password
           required: true
     parameters: []
-  /api/v1/authenticates:
+  /api/v1/authenticate:
     post:
-      summary: 'POST API::Auths'
+      summary: 'POST API::Auth'
       operationId: post-api-auth
       responses:
         '200':
