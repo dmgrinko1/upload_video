@@ -1,8 +1,12 @@
 swagger: '2.0'
 info:
-  title: Video Upload App API documentation
+  description: Video Upload App API documentation
+  title: Video Upload API
   version: '1.0'
+  contact:
+    name: Dmitry Grinko
 host: 'localhost:3000'
+tags: []
 schemes:
   - http
 produces:
@@ -12,7 +16,7 @@ consumes:
 paths:
   /api/v1/videos:
     get:
-      summary: 'GET API::V1::Videos'
+      description: 'GET API::V1::Videos'
       tags: []
       responses:
         '200':
@@ -20,7 +24,21 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/video'
+              title: video
+              type: object
+              properties:
+                id:
+                  type: string
+                state:
+                  type: string
+                created_at:
+                  type: string
+                updated_at:
+                  type: string
+                duration:
+                  type: integer
+                url:
+                  type: string
           examples:
             success:
               - id: 5e2849a341a30293f1e61b5f
@@ -36,17 +54,32 @@ paths:
                 duration: 11
                 url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/200-solid-open-closed-principle.mp4
         '403':
-          description: Forbidden
           schema:
-            $ref: '#/definitions/403'
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
+          description: Forbidden Error
         '404':
-          description: Not Found
           schema:
-            $ref: '#/definitions/404'
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
+          description: NotFound Error
         '422':
-          description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/422'
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
+          description: Missing token
       operationId: get-api-v1-videos
       parameters:
         - type: string
@@ -61,13 +94,27 @@ paths:
           required: true
   '/api/v1/videos/{id}':
     get:
-      summary: 'GET API::V1::Video'
+      description: 'GET API::V1::Video'
       tags: []
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/video'
+            title: video
+            type: object
+            properties:
+              id:
+                type: string
+              state:
+                type: string
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              duration:
+                type: integer
+              url:
+                type: string
           examples:
             success:
               id: 5e2849a341a30293f1e61b5f
@@ -79,17 +126,31 @@ paths:
         '403':
           description: Forbidden
           schema:
-            $ref: '#/definitions/403'
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
         '404':
           description: Not Found
           schema:
-            $ref: '#/definitions/404'
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
         '422':
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/422'
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
       operationId: 'get-api-v1-videos-:id'
-      description: get video by id
       parameters:
         - type: string
           in: header
@@ -108,7 +169,11 @@ paths:
         required: true
   /api/v1/videos/upload:
     post:
-      summary: 'POST API::V1::UploadVideo'
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V1::UploadVideo'
       operationId: post-api-v1-videos-upload
       responses:
         '200':
@@ -125,215 +190,39 @@ paths:
         '400':
           description: Bad Request
           schema:
-            $ref: '#/definitions/400'
+            title: BadRequest Error
+            type: object
+            description: |-
+              "attachment": ["cant`be blank"], ["must be less then 200 mb"], ["invalid file format"];
+              "endTime": ["must be after the StartTime"],["can`t be blank if start date present"];
+              "startTime": ["can`t be blank if endTime present"]
         '403':
           description: Forbidden
           schema:
-            $ref: '#/definitions/403'
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
         '404':
           description: Not Found
           schema:
-            $ref: '#/definitions/404'
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
         '422':
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/422'
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: |
-            application/json
-          required: true
-        - type: string
-          in: header
-          name: Authorization
-          description: JWT Token
-          required: true
-        - in: formData
-          type: file
-          name: attachment
-          description: attach file
-      description: Upload video
-    parameters: []
-  '/api/v1/videos/{id}/failed/retry':
-    parameters:
-      - type: string
-        name: id
-        in: path
-        required: true
-    post:
-      summary: 'POST API::V1::RetryUploadVideo'
-      operationId: post-api-v1-videos-id-failed-retry
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          examples:
-            success:
-              id: 5e2849a341a30293f1e61b5f
-              state: done
-              created_at: '2020-01-22T13:09:55.034Z'
-              updated_at: '2020-01-22T13:09:55.034Z'
-              duration: 11
-              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
-        '403':
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/403'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/404'
-        '422':
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/422'
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: |
-            application/json
-          required: true
-        - type: string
-          in: header
-          name: Authorization
-          description: JWT Token
-          required: true
-        - in: formData
-          type: file
-          name: attachment
-          description: "attachment file ['mp4]"
-          required: true
-  /api/v2/videos:
-    get:
-      summary: 'GET API::V2::Videos'
-      tags: []
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/video'
-          examples:
-            success:
-              - id: 5e2849a341a30293f1e61b5f
-                state: scheduled
-                created_at: '2020-01-22T13:09:55.034Z'
-                updated_at: '2020-01-22T13:09:55.034Z'
-                duration: 11
-                url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
-              - id: 5e2849a341a30293f1e61b5f22
-                state: scheduled
-                created_at: '2020-01-22T13:09:55.034Z'
-                updated_at: '2020-01-22T13:09:55.034Z'
-                duration: 11
-                url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/200-solid-open-closed-principle.mp4
-        '403':
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/403'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/404'
-        '422':
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/422'
-      operationId: get-api-v2-videos
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: application/json
-          required: true
-        - type: string
-          in: header
-          name: Authorization
-          description: JWT Token
-          required: true
-  '/api/v2/videos/{id}':
-    get:
-      summary: 'GET API::V2::Video'
-      tags: []
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/video'
-          examples:
-            success:
-              id: 5e2849a341a30293f1e61b5f
-              state: scheduled
-              created_at: '2020-01-22T13:09:55.034Z'
-              updated_at: '2020-01-22T13:09:55.034Z'
-              duration: 11
-              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
-        '403':
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/403'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/404'
-        '422':
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/422'
-      operationId: 'get-api-v2-videos-:id'
-      description: get video by id
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: application/json
-          required: true
-        - type: string
-          in: header
-          description: JWT Token
-          name: Authorization
-          required: true
-    parameters:
-      - type: string
-        name: id
-        in: path
-        required: true
-  /api/v2/videos/upload:
-    post:
-      summary: 'POST API::V2::UploadVideo'
-      operationId: post-api-v2-videos-upload
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          examples:
-            success:
-              id: 5e2849a341a30293f1e61b5f
-              state: scheduled
-              created_at: '2020-01-22T13:09:55.034Z'
-              updated_at: '2020-01-22T13:09:55.034Z'
-              duration: 11
-              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/200-solid-open-closed-principle.mp4
-        '400':
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/400'
-        '403':
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/403'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/404'
-        '422':
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/422'
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
       parameters:
         - type: string
           in: header
@@ -359,7 +248,347 @@ paths:
           name: attachment
           description: "attachment file ['mp4]"
           required: true
-      description: Upload video
+    parameters: []
+  '/api/v1/videos/{id}/failed/retry':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+    post:
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V1::RetryUploadVideo'
+      operationId: post-api-v1-videos-id-failed-retry
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          examples:
+            success:
+              id: 5e2849a341a30293f1e61b5f
+              state: done
+              created_at: '2020-01-22T13:09:55.034Z'
+              updated_at: '2020-01-22T13:09:55.034Z'
+              duration: 11
+              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
+        '403':
+          description: Forbidden
+          schema:
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
+        '404':
+          description: Not Found
+          schema:
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: file
+          name: attachment
+          description: "attachment file ['mp4]"
+          required: true
+  /api/v1/authenticate:
+    post:
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V1::Auth'
+      operationId: post-api-v1-authenticate
+      responses:
+        '200':
+          description: OK headers
+          schema:
+            title: user
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+        '401':
+          description: Unauthorized
+          schema:
+            title: Unauthorized Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: Invalid credentials
+          examples:
+            Unauthorized:
+              message: Invalid credentials
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+          required: true
+        - in: formData
+          type: string
+          name: email
+          description: email login
+        - in: formData
+          type: string
+          name: password
+          description: password
+  /api/v2/videos:
+    get:
+      description: 'GET API::V2::Videos'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              title: video
+              type: object
+              properties:
+                id:
+                  type: string
+                state:
+                  type: string
+                created_at:
+                  type: string
+                updated_at:
+                  type: string
+                duration:
+                  type: integer
+                url:
+                  type: string
+          examples:
+            success:
+              - id: 5e2849a341a30293f1e61b5f
+                state: scheduled
+                created_at: '2020-01-22T13:09:55.034Z'
+                updated_at: '2020-01-22T13:09:55.034Z'
+                duration: 11
+                url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
+              - id: 5e2849a341a30293f1e61b5f22
+                state: scheduled
+                created_at: '2020-01-22T13:09:55.034Z'
+                updated_at: '2020-01-22T13:09:55.034Z'
+                duration: 11
+                url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/200-solid-open-closed-principle.mp4
+        '403':
+          description: Forbidden
+          schema:
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
+        '404':
+          description: Not Found
+          schema:
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
+      operationId: get-api-v2-videos
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+  '/api/v2/videos/{id}':
+    get:
+      description: 'GET API::V2::Video'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            title: video
+            type: object
+            properties:
+              id:
+                type: string
+              state:
+                type: string
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              duration:
+                type: integer
+              url:
+                type: string
+          examples:
+            success:
+              id: 5e2849a341a30293f1e61b5f
+              state: scheduled
+              created_at: '2020-01-22T13:09:55.034Z'
+              updated_at: '2020-01-22T13:09:55.034Z'
+              duration: 11
+              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/199-solid-open-closed-principle.mp4
+        '403':
+          description: Forbidden
+          schema:
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
+        '404':
+          description: Not Found
+          schema:
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
+      operationId: 'get-api-v2-videos-:id'
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: application/json
+        - type: string
+          in: header
+          description: JWT Token
+          name: Authorization
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+  /api/v2/videos/upload:
+    post:
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V2::UploadVideo'
+      operationId: post-api-v2-videos-upload
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          examples:
+            success:
+              id: 5e2849a341a30293f1e61b5f
+              state: scheduled
+              created_at: '2020-01-22T13:09:55.034Z'
+              updated_at: '2020-01-22T13:09:55.034Z'
+              duration: 11
+              url: Foo.com/system/videos/attachments/5e28/49a3/41a3/0293/f1e6/1b5f/original/200-solid-open-closed-principle.mp4
+        '400':
+          description: Bad Request
+          schema:
+            title: BadRequest Error
+            type: object
+            description: |-
+              "attachment": ["cant`be blank"], ["must be less then 200 mb"], ["invalid file format"];
+              "endTime": ["must be after the StartTime"],["can`t be blank if start date present"];
+              "startTime": ["can`t be blank if endTime present"]
+        '403':
+          description: Forbidden
+          schema:
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
+        '404':
+          description: Not Found
+          schema:
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
+      parameters:
+        - type: string
+          in: header
+          name: Content-Type
+          description: |
+            application/json
+        - type: string
+          in: header
+          name: Authorization
+          description: JWT Token
+        - in: formData
+          type: integer
+          name: start_time
+          description: start trim time sec
+        - in: formData
+          type: integer
+          name: end_time
+          description: end trim time sec
+        - in: formData
+          type: file
+          name: attachment
+          description: "attachment file ['mp4]"
+          required: true
     parameters: []
   '/api/v2/videos/{id}/failed/retry':
     parameters:
@@ -368,7 +597,11 @@ paths:
         in: path
         required: true
     post:
-      summary: 'POST API::V2::RetryUploadVideo'
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V2::RetryUploadVideo'
       operationId: post-api-v2-videos-id-failed-retry
       responses:
         '200':
@@ -385,27 +618,40 @@ paths:
         '403':
           description: Forbidden
           schema:
-            $ref: '#/definitions/403'
+            title: Forbidden Error
+            properties:
+              message:
+                type: string
+                description: Forbidden
+            type: object
         '404':
           description: Not Found
           schema:
-            $ref: '#/definitions/404'
+            title: NotFound Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: 'Document not found for class Video with attributes {:id=>"your_id"}'
         '422':
           description: Unprocessable Entity
           schema:
-            $ref: '#/definitions/422'
+            title: MissingToken Error
+            type: object
+            properties:
+              mwssage:
+                type: string
+                description: Missing token
       parameters:
         - type: string
           in: header
           name: Content-Type
           description: |
             application/json
-          required: true
         - type: string
           in: header
           name: Authorization
           description: JWT Token
-          required: true
         - in: formData
           type: file
           name: attachment
@@ -413,7 +659,11 @@ paths:
           required: true
   /api/v2/authenticate:
     post:
-      summary: 'POST API::V2::Auth'
+      tags: []
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      description: 'POST API::V2::Auth'
       operationId: post-api-v2-authenticate
       responses:
         '200':
@@ -422,11 +672,22 @@ paths:
             success:
               auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
           schema:
-            $ref: '#/definitions/user'
+            title: user
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
         '401':
           description: Unauthorized
           schema:
-            $ref: '#/definitions/401'
+            title: Unauthorized Error
+            type: object
+            properties:
+              message:
+                type: string
+                description: Invalid credentials
           examples:
             Unauthorized:
               message: Invalid credentials
@@ -440,80 +701,41 @@ paths:
           type: string
           name: email
           description: email login
-          required: true
         - in: formData
           type: string
           name: password
           description: password
-          required: true
-    parameters: []
-  /api/v1/authenticates:
-    post:
-      summary: 'POST API::Auths'
-      operationId: post-api-auth
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          examples:
-            success:
-              auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
-        '401':
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/401'
-          examples:
-            Unauthorized:
-              message: Invalid credentials
-      parameters:
-        - type: string
-          in: header
-          name: Content-Type
-          description: application/json
-          required: true
-        - in: formData
-          type: string
-          name: email
-          description: login email
-          required: true
-        - in: formData
-          type: string
-          name: password
-          description: password
-          required: true
 definitions:
   '400':
-    title: 400
+    title: BadRequest Error
     type: object
     description: |-
       "attachment": ["cant`be blank"], ["must be less then 200 mb"], ["invalid file format"];
       "endTime": ["must be after the StartTime"],["can`t be blank if start date present"];
       "startTime": ["can`t be blank if endTime present"]
   '401':
-    title: 401
+    title: Unauthorized Error
     type: object
     properties:
       message:
         type: string
         description: Invalid credentials
   '403':
-    title: 403
-    type: object
+    title: Forbidden Error
     properties:
       message:
         type: string
         description: Forbidden
+    type: object
   '404':
-    title: 404
+    title: NotFound Error
     type: object
     properties:
       message:
         type: string
-        description: |-
-          Document not found for class Video with attributes {:id=>"your_
-          id"
+        description: 'Document not found for class Video with attributes {:id=>"your_id"}'
   '422':
-    title: 422
+    title: MissingToken Error
     type: object
     properties:
       mwssage:
