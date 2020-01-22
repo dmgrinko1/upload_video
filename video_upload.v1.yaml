@@ -241,7 +241,12 @@ paths:
         - in: body
           name: body
           schema:
-            $ref: '#/definitions/user'
+            properties:
+              user:
+                type: string
+              email:
+                type: string
+          description: ''
   /api/v2/videos:
     get:
       summary: 'GET API::V2::Videos'
@@ -463,16 +468,6 @@ paths:
           in: header
           name: Content-Type
           description: application/json
-          required: true
-        - type: string
-          in: header
-          name: email
-          description: email login
-          required: true
-        - type: string
-          in: header
-          name: password
-          description: password
           required: true
         - in: body
           name: body
