@@ -151,18 +151,9 @@ paths:
           description: JWT Token
           required: true
         - in: formData
-          type: integer
-          name: start_time
-          description: start trim time sec
-        - in: formData
-          type: integer
-          name: end_time
-          description: end trim time sec
-        - in: formData
           type: file
           name: attachment
-          description: "attachment file ['mp4]"
-          required: true
+          description: attach file
       description: Upload video
     parameters: []
   '/api/v1/videos/{id}/failed/retry':
@@ -215,16 +206,15 @@ paths:
           required: true
   /api/v1/authenticate:
     post:
-      summary: 'POST API::V1::Auth'
-      operationId: post-api-v1-authenticate
+      summary: 'POST API::Auth'
+      operationId: post-api-auth
       responses:
         '200':
           description: OK
+          headers: {}
           examples:
             success:
               auth_token: JWT eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI1ZTI0MjA1ODQxYTMwMmU4NGRkNDQzM2QifSwiZXhwIjoxNTc5Nzg1NDI4fQ.it5KtxPphEbyhqNLJZy3IB-r0lXuQml1uKN5cNtr9O4
-          schema:
-            $ref: '#/definitions/user'
         '401':
           description: Unauthorized
           schema:
@@ -238,15 +228,14 @@ paths:
           name: Content-Type
           description: application/json
           required: true
-        - in: body
-          name: body
-          schema:
-            properties:
-              user:
-                type: string
-              email:
-                type: string
-          description: ''
+        - in: formData
+          type: string
+          name: email
+          description: login email
+        - in: formData
+          type: string
+          name: password
+          description: password
   /api/v2/videos:
     get:
       summary: 'GET API::V2::Videos'
@@ -469,11 +458,14 @@ paths:
           name: Content-Type
           description: application/json
           required: true
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/user'
-          description: ''
+        - in: formData
+          type: string
+          name: email
+          description: email login
+        - in: formData
+          type: string
+          name: password
+          description: password
 definitions:
   '400':
     title: 400
